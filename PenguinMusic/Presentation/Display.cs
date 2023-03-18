@@ -91,12 +91,12 @@ namespace PenguinMusic.Presentation
                         }
                     case "Performers":
                         {
-
+                            DisplayPerformers dp = new DisplayPerformers();
                             break;
                         }
                     case "Halls":
                         {
-
+                            DisplayHalls dh = new DisplayHalls();
                             break;
                         }
                     case "Donate":

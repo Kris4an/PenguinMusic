@@ -9,6 +9,12 @@ namespace PenguinMusic.Data.Models
         {
             Halls = new HashSet<Halls>();
         }
+        public Cities(int id, string name, string country)
+        {
+            CityId = id;
+            CityName = name;
+            Country = country;
+        }
 
         public int CityId { get; set; }
         public string CityName { get; set; }

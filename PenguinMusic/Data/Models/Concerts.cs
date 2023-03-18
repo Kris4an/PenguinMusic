@@ -31,49 +31,9 @@ namespace PenguinMusic.Data.Models
 
         public override string ToString()
         {
-            string color = "white";
-            /*switch (Performer.GenreId)
-            {
-                case 1:
-                    {
-                        color = "darkred";
-                        break;
-                    }
-                case 2:
-                    {
-                        color = "indianred_1";
-                        break;
-                    }
-                case 3:
-                    {
-                        color = "sandybrown";
-                        break;
-                    }
-                case 4:
-                    {
-                        color = "navyblue";
-                        break;
-                    }
-                case 5:
-                    {
-                        color = "white";
-                        break;
-                    }
-                case 6:
-                    {
-                        color = "mediumpurple3";
-                        break;
-                    }
-                case 7:
-                    {
-                        color = "greenyellow";
-                        break;
-                    }
-
-            }*/
-            string dateTime = DateAndTime.ToString();
+            string dateTime = DateAndTime.ToString("dd/MMM/yyyy H:mm");
             //return $"[{color}]{Performer.PerformerName}[/], {Hall}, [yellow]{dateTime}[/], [deepskyblue2]{Price}[/]";
-            return $"[{color}]{PerformerId}[/], {HallId}, [yellow]{dateTime}[/], [deepskyblue2]{Price}[/]";
+            return $"[blueviolet]{new PerformerData().GetPerformerName(PerformerId)}[/], [orange3]{new HallData().GetHallName(HallId)}[/], [yellow1]{dateTime}[/], [deepskyblue2]{Price}BGN[/]";
         }
     }
 }
