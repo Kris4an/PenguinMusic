@@ -33,5 +33,28 @@ namespace PenguinMusic.Data
             }
             return cities;
         }
+        public Cities GetCity(int id)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                Cities city = null;
+                var command = new SqlCommand($"SELECT * FROM Cities WHERE City_Id={id}", connection);
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        city = new Cities(
+                            reader.GetInt32(0),
+                            reader.GetString(1),
+                            reader.GetString(2)
+                        );
+                        break;
+                    }
+                    connection.Close();
+                }
+                return city;
+            }
+        }
     }
 }

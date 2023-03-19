@@ -119,5 +119,20 @@ namespace PenguinMusic.Data
             }
             return concerts;
         }
+        public void Add(int hallId, int performerId, DateTime dateTime, int price)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand("INSERT INTO Concerts (Hall_ID, Performer_ID, Date_And_Time, Available, Price) VALUES(@hallId, @performerId, @dateTime, @available, @price)", connection);
+                command.Parameters.AddWithValue("hallId", hallId);
+                command.Parameters.AddWithValue("performerId", performerId);
+                command.Parameters.AddWithValue("dateTime", dateTime);
+                command.Parameters.AddWithValue("available", true);
+                command.Parameters.AddWithValue("price", price);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
     }
 }

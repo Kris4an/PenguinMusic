@@ -50,6 +50,17 @@ namespace PenguinMusic.Data
             }
             return "";
         }
+        public void Add(string name)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand("INSERT INTO Genres (Name) VALUES(@name)", connection);
+                command.Parameters.AddWithValue("name", name);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
     }
     
 }

@@ -86,17 +86,17 @@ namespace PenguinMusic.Presentation
                 {
                     case "Concerts":
                         {
-                            DisplayConcerts dc = new DisplayConcerts();
+                            new DisplayConcerts();
                             break;
                         }
                     case "Performers":
                         {
-                            DisplayPerformers dp = new DisplayPerformers();
+                            new DisplayPerformers();
                             break;
                         }
                     case "Halls":
                         {
-                            DisplayHalls dh = new DisplayHalls();
+                            new DisplayHalls();
                             break;
                         }
                     case "Donate":
@@ -106,7 +106,16 @@ namespace PenguinMusic.Presentation
                         }
                     case "Admin":
                         {
-
+                            var password = AnsiConsole.Prompt(
+                                                new TextPrompt<string>("Enter [green]password[/]?")
+                                                    .PromptStyle("red")
+                                                    .Secret());
+                            if(password!="Pingvin<3")
+                            {
+                                Console.Clear();
+                                break;
+                            }
+                            new DisplayAdmin();
                             break;
                         }
                     case "Exit":

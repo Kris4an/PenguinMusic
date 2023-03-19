@@ -9,6 +9,13 @@ namespace PenguinMusic.Data.Models
         {
             Concerts = new HashSet<Concerts>();
         }
+        public Halls(int id, string name, int cityId, int seats)
+        {
+            HallsId = id;
+            HallName = name;
+            CityId = cityId;
+            NoOfSeats = seats;
+        }
 
         public int HallsId { get; set; }
         public string HallName { get; set; }
@@ -20,7 +27,7 @@ namespace PenguinMusic.Data.Models
 
         public override string ToString()
         {
-            return $"[green3]{HallName}, {City}";
+            return $"[green3]{HallName}, {City}[/]";
         }
     }
 }
