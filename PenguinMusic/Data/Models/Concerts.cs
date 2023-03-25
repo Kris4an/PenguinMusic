@@ -7,7 +7,7 @@ namespace PenguinMusic.Data.Models
     {
         public Concerts()
         {
-            SoldTickets = new HashSet<SoldTickets>();
+            SoldTickets = new HashSet<Ticket>();
         }
         public Concerts(int concertId, int hallId, int performerId, DateTime dateTime, bool available, int price)
         {
@@ -27,7 +27,7 @@ namespace PenguinMusic.Data.Models
 
         public virtual Halls Hall { get; set; }
         public virtual Performers Performer { get; set; }
-        public virtual ICollection<SoldTickets> SoldTickets { get; set; }
+        public virtual ICollection<Ticket> SoldTickets { get; set; }
 
         public override string ToString()
         {

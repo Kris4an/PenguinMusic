@@ -27,7 +27,11 @@ namespace PenguinMusic.Data.Models
 
         public override string ToString()
         {
-            return $"[green3]{HallName}, {City}[/]";
+            return $"[green3]{HallName}, {new CityData().GetCity(CityId).CityName}[/]";
+        }
+        public string ToStringNoMarkup()
+        {
+            return $"{HallName}, {new CityData().GetCity(CityId).CityName}";
         }
     }
 }

@@ -30,7 +30,7 @@ namespace PenguinMusic.Data
             List<Performers> performers = new List<Performers>();
             using (var connection = Database.GetConnection())
             {
-                var command = new SqlCommand("SELECT * FROM Performers", connection);
+                var command = new SqlCommand("SELECT * FROM Performers Order by Genre_ID, Performer_Name", connection);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -55,7 +55,7 @@ namespace PenguinMusic.Data
             List<Performers> performers = new List<Performers>();
             using (var connection = Database.GetConnection())
             {
-                var command = new SqlCommand($"SELECT * FROM Performers WHERE Genre_ID={id}", connection);
+                var command = new SqlCommand($"SELECT * FROM Performers WHERE Genre_ID={id} Order by Performer_Name", connection);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {

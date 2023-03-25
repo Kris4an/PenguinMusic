@@ -26,38 +26,42 @@ namespace PenguinMusic.Presentation
                 {
                     case "All available":
                         {
-                            List<string> concerts = new List<string>();
-                            foreach( var concert in new ConcertData().GetAlailableConcerts())
+                            List<string> concertsString = new List<string>();
+                            var concerts = new ConcertData().GetAlailableConcerts();
+                            foreach ( var concert in concerts)
                             {
-                                concerts.Add(concert.ToString());
+                                concertsString.Add(concert.ToString());
                             }
-                            concerts.Add("[red3]Back[/]");
+                            concertsString.Add("[red3]Back[/]");
 
                             var concertSelector = AnsiConsole.Prompt(
                                 new SelectionPrompt<string>()
                                 .Title("[gold3_1]All available concerts[/]")
                                 .HighlightStyle(highlightStyle)
-                                .AddChoices(concerts.ToArray()));
+                                .AddChoices(concertsString.ToArray()));
 
                             if (concertSelector == "[red3]Back[/]") break;
 
+                            Concerts c = concerts[concertsString.IndexOf(concertSelector)];
+                            BuyTicket(c.ConcertId, c.Price == null ? 0 : c.Price.Value);
 
                             break;
                         }
                     case "Past and present concerts":
                         {
-                            List<string> concerts = new List<string>();
-                            foreach (var concert in new ConcertData().GetAllConcerts())
+                            List<string> concertsString = new List<string>();
+                            var concerts = new ConcertData().GetAllConcerts();
+                            foreach (var concert in concerts)
                             {
-                                concerts.Add(concert.ToString());
+                                concertsString.Add(concert.ToString());
                             }
-                            concerts.Add("[red3]Back[/]");
+                            concertsString.Add("[red3]Back[/]");
 
                             var concertSelector = AnsiConsole.Prompt(
                                 new SelectionPrompt<string>()
                                 .Title("[gold3_1]All available concerts[/]")
                                 .HighlightStyle(highlightStyle)
-                                .AddChoices(concerts.ToArray()));
+                                .AddChoices(concertsString.ToArray()));
 
                             if (concertSelector == "[red3]Back[/]") break;
 
@@ -82,26 +86,24 @@ namespace PenguinMusic.Presentation
 
                             if(genreSelector == "[red3]Back[/]") break;
 
-                            List<string> concerts = new List<string>();
-                            foreach (var concert in new ConcertData().GetConcertsByGenre(genres[genresString.IndexOf(genreSelector)].GenreId))
+                            List<string> concertsString = new List<string>();
+                            var concerts = new ConcertData().GetConcertsByGenre(genres[genresString.IndexOf(genreSelector)].GenreId);
+                            foreach (var concert in concerts)
                             {
-                                concerts.Add(concert.ToString());
+                                concertsString.Add(concert.ToString());
                             }
-                            concerts.Add("[red3]Back[/]");
+                            concertsString.Add("[red3]Back[/]");
 
                             var concertSelector = AnsiConsole.Prompt(
                                 new SelectionPrompt<string>()
                                 .Title($"[gold3_1]All available {genreSelector} concerts[/]")
                                 .HighlightStyle(highlightStyle)
-                                .AddChoices(concerts.ToArray()));
+                                .AddChoices(concertsString.ToArray()));
 
                             if (concertSelector == "[red3]Back[/]") break;
 
-                            switch (concertSelector)
-                            {
-
-                            }
-
+                            Concerts c = concerts[concertsString.IndexOf(concertSelector)];
+                            BuyTicket(c.ConcertId, c.Price == null ? 0 : c.Price.Value);
 
                             break;
                         }
@@ -123,26 +125,24 @@ namespace PenguinMusic.Presentation
 
                             if (citySelector == "[red3]Back[/]") break;
 
-                            List<string> concerts = new List<string>();
-                            foreach (var concert in new ConcertData().GetConcertsByCity(cities[citiesString.IndexOf(citySelector)].CityId))
+                            List<string> concertsString = new List<string>();
+                            var concerts = new ConcertData().GetConcertsByCity(cities[citiesString.IndexOf(citySelector)].CityId);
+                            foreach (var concert in concerts)
                             {
-                                concerts.Add(concert.ToString());
+                                concertsString.Add(concert.ToString());
                             }
-                            concerts.Add("[red3]Back[/]");
+                            concertsString.Add("[red3]Back[/]");
 
                             var concertSelector = AnsiConsole.Prompt(
                                 new SelectionPrompt<string>()
                                 .Title($"[gold3_1]All available concerts in {citySelector}[/]")
                                 .HighlightStyle(highlightStyle)
-                                .AddChoices(concerts.ToArray()));
+                                .AddChoices(concertsString.ToArray()));
 
                             if (concertSelector == "[red3]Back[/]") break;
 
-                            switch (concertSelector)
-                            {
-
-                            }
-
+                            Concerts c = concerts[concertsString.IndexOf(concertSelector)];
+                            BuyTicket(c.ConcertId, c.Price==null? 0:c.Price.Value);
 
                             break;
                         }
@@ -153,6 +153,27 @@ namespace PenguinMusic.Presentation
                         }
                 }
             }
+        }
+        private void BuyTicket(int concertId, int price)
+        {
+            var highlightStyle = new Style().Foreground(Color.Gold3_1);
+            string name = AnsiConsole.Ask<string>("What's your [purple4_1]name[/]?");
+            var confirm = AnsiConsole.Prompt(
+                                new SelectionPrompt<string>()
+                                .Title($"[gold3_1]The price of the ticket is [deepskyblue2]{price}BGN. [/]Do you want to continue?[/]")
+                                .HighlightStyle(highlightStyle)
+                                .AddChoices(new[] { "No", "Yes" }));
+            if (confirm.Equals("No"))
+            {
+                return;
+            }
+            new TicketData().BuyTicket(name, concertId);
+            AnsiConsole.MarkupLine(new Ticket(name, concertId).ToString());
+            AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                        .Title("Back to the menu")
+                        .HighlightStyle(highlightStyle)
+                        .AddChoices(new[] { "Back" }));
         }
     }
 }

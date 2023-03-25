@@ -21,7 +21,7 @@ namespace PenguinMusic.Data.Models
         public virtual DbSet<Genres> Genres { get; set; }
         public virtual DbSet<Halls> Halls { get; set; }
         public virtual DbSet<Performers> Performers { get; set; }
-        public virtual DbSet<SoldTickets> SoldTickets { get; set; }
+        public virtual DbSet<Ticket> SoldTickets { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -150,7 +150,7 @@ namespace PenguinMusic.Data.Models
                     .HasConstraintName("FK_Genre");
             });
 
-            modelBuilder.Entity<SoldTickets>(entity =>
+            modelBuilder.Entity<Ticket>(entity =>
             {
                 entity.HasKey(e => e.TicketId);
 

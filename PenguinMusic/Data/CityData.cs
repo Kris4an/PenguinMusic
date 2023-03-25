@@ -13,7 +13,7 @@ namespace PenguinMusic.Data
             List<Cities> cities = new List<Cities>();
             using (var connection = Database.GetConnection())
             {
-                var command = new SqlCommand("SELECT * FROM Cities", connection);
+                var command = new SqlCommand("SELECT * FROM Cities Order by Country, CIty_Name", connection);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -54,6 +54,18 @@ namespace PenguinMusic.Data
                     connection.Close();
                 }
                 return city;
+            }
+        }
+        public void Add(string city, string country)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand("INSERT INTO Cities (CIty_Name, Country) VALUES(@city, @country)", connection);
+                command.Parameters.AddWithValue("city", city);
+                command.Parameters.AddWithValue("country", country);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
         }
     }

@@ -78,5 +78,41 @@ namespace PenguinMusic.Data
             }
             return halls;
         }
+        public void Add(string name, int seats, int cityId)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand("INSERT INTO Halls (Hall_Name, City_ID, No_Of_Seats) VALUES(@name, @cityId, @seats)", connection);
+                command.Parameters.AddWithValue("name", name);
+                command.Parameters.AddWithValue("cityId", cityId);
+                command.Parameters.AddWithValue("seats", seats);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+        public Halls GetHallById(int id)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand($"SELECT * FROM Halls where Halls_ID={id}", connection);
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return new Halls(
+                            reader.GetInt32(0),
+                            reader.GetString(1),
+                            reader.GetInt32(2),
+                            reader.GetInt32(3)
+                        );
+                    }
+
+                }
+                connection.Close();
+            }
+            return new Halls();
+        }
     }
 }

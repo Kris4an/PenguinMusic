@@ -19,7 +19,7 @@ namespace PenguinMusic.Presentation
                         .Title("[gold3_1]Menu[/]")
                         .HighlightStyle(highlightStyle)
                         .AddChoices(new[] {
-                        "Add performer", "Add concert", "Add genre", "Add hall", "Add city", "[red3]Back[/]"
+                        "Add performer", "Add concert", "Add genre", "Add hall", "Add city", "See all sold tickets", "[red3]Back[/]"
                         }));
 
                 switch (menuSelector)
@@ -56,7 +56,7 @@ namespace PenguinMusic.Presentation
                                 new SelectionPrompt<string>()
                                 .Title("[gold3_1]Do you want to continue?[/]")
                                 .HighlightStyle(highlightStyle)
-                                .AddChoices(new[] { "No", "Yes"}));
+                                .AddChoices(new[] { "No", "Yes" }));
                             if (confirm.Equals("No"))
                             {
                                 break;
@@ -129,6 +129,62 @@ namespace PenguinMusic.Presentation
                                 dateTime,
                                 price);
 
+                            break;
+                        }
+                    case "Add city":
+                        {
+                            var confirm = AnsiConsole.Prompt(
+                                new SelectionPrompt<string>()
+                                .Title("[gold3_1]Do you want to continue?[/]")
+                                .HighlightStyle(highlightStyle)
+                                .AddChoices(new[] { "No", "Yes" }));
+                            if (confirm.Equals("No"))
+                            {
+                                break;
+                            }
+                            new CityData().Add(AnsiConsole.Ask<string>("What's the city [purple4_1]called[/]?"), AnsiConsole.Ask<string>("In which country is [purple4_1]the city[/]?"));
+
+                            break;
+                        }
+                    case "Add hall":
+                        {
+                            string name = AnsiConsole.Ask<string>("What's the hall [purple4_1]called[/]?");
+                            int seats = AnsiConsole.Ask<int>("How many [purple4_1]seats[/] are there?");
+
+                            List<string> citiesString = new List<string>();
+                            List<Cities> cities = new CityData().GetCities();
+                            foreach (var city in cities)
+                            {
+                                citiesString.Add(city.ToString());
+                            }
+                            citiesString.Add("[red3]Back[/]");
+
+                            if (citiesString.Equals("[red3]Back[/]"))
+                            {
+                                break;
+                            }
+                            var citySelector = AnsiConsole.Prompt(
+                               new SelectionPrompt<string>()
+                               .Title("[gold3_1]Where is the hall?[/]")
+                               .HighlightStyle(highlightStyle)
+                               .AddChoices(citiesString.ToArray()));
+
+                            new HallData().Add(name, seats, cities[citiesString.IndexOf(citySelector)].CityId);
+
+                            break;
+                        }
+                    case "See all sold tickets":
+                        {
+                            List<Ticket> tickets = new TicketData().GetSoldTickets();
+                            foreach (Ticket ticket in tickets)
+                            {
+                                AnsiConsole.MarkupLine(ticket.ToString());
+                            }
+                            AnsiConsole.Prompt(
+                            new SelectionPrompt<string>()
+                                .Title("Back to the menu")
+                                .HighlightStyle(highlightStyle)
+                                .AddChoices(new[] { "Back" }));
                             break;
                         }
                     case "[red3]Back[/]":
