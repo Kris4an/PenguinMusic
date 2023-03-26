@@ -17,7 +17,7 @@ namespace PenguinMusic.Data.Models
 
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Concerts> Concerts { get; set; }
-        public virtual DbSet<Donations> Donations { get; set; }
+        public virtual DbSet<Donation> Donations { get; set; }
         public virtual DbSet<Genres> Genres { get; set; }
         public virtual DbSet<Halls> Halls { get; set; }
         public virtual DbSet<Performers> Performers { get; set; }
@@ -81,7 +81,7 @@ namespace PenguinMusic.Data.Models
                     .HasConstraintName("FK_Performer");
             });
 
-            modelBuilder.Entity<Donations>(entity =>
+            modelBuilder.Entity<Donation>(entity =>
             {
                 entity.HasKey(e => e.DonationId);
 

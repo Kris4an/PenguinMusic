@@ -101,7 +101,7 @@ namespace PenguinMusic.Presentation
                         }
                     case "Donate":
                         {
-
+                            new DonateDisplay();
                             break;
                         }
                     case "Admin":

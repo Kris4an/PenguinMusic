@@ -31,7 +31,7 @@ namespace PenguinMusic.Data
             List<Halls> halls = new List<Halls>();
             using (var connection = Database.GetConnection())
             {
-                var command = new SqlCommand("SELECT * FROM Halls", connection);
+                var command = new SqlCommand("SELECT * FROM Halls order by No_Of_Seats desc", connection);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -57,7 +57,7 @@ namespace PenguinMusic.Data
             List<Halls> halls = new List<Halls>();
             using (var connection = Database.GetConnection())
             {
-                var command = new SqlCommand($"SELECT * FROM Halls WHERE City_ID={id}", connection);
+                var command = new SqlCommand($"SELECT * FROM Halls WHERE City_ID={id} order by No_Of_Seats desc", connection);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
